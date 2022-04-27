@@ -3,16 +3,35 @@
 
 import neurokit2 as nk
 import pandas as pd
+import bioread
 import  matplotlib.pyplot as plt
 
+
+'''
+Import the Data 
+note: all sampling rates are 2000hz
+'''
 
 plt.rcParams['figure.figsize'] = [15, 9]  # Bigger images
 plt.rcParams['font.size']= 13
 
 filename = "/Users/elise/PycharmProjects/MASMRanalysis/MASMRpractice/003ASMR.acq"
-data, sampling_rate = nk.read_acqknowledge(filename)
-#note: all sampling rates are 2000hz
+eda_signal, sampling_rate = nk.read_acqknowledge(filename)
 
+
+'''
+ Process the raw EDA signal (unfinished)
+'''
+
+signal, info = nk.eda_process(eda_signal["EDA, Y, PPGED-R"], sampling_rate=2000)
+
+'''
+FIND EVENTS 
+fill the dictionary with events as they happen (change in channels)
+label them with a time and a name for which type of stimulus it was 
+'''
+
+events = {}
 
 
 # Process ecg
