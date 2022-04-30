@@ -67,30 +67,34 @@ perform events_find on each column (1 array)
 append into events dictionary 
 '''
 
-events = {}
-
-#need to add a name to these
-
-baselineevents1 = nk.events_find(data1["Baseline"],threshold=0, threshold_keep='above')
-baselineevents1["name"] = "Baseline"
-controlevents1 = nk.events_find(data1.iloc[:,4],threshold=0, threshold_keep='above')
+#gets the events and adds name- need to change into capitals
+BaselineEvents1 = nk.events_find(data1["Baseline"],threshold=0, threshold_keep='above')
+BaselineEvents1["name"] = "Baseline"
+ControlEvents1 = nk.events_find(data1.iloc[:,4],threshold=0, threshold_keep='above')
+ControlEvents1["name"] = "Control"
 ASMRevents1 = nk.events_find(data1["ASMR"], threshold=0, threshold_keep="above")
+ASMRevents1["name"] = "ASMR"
 
-eventsarraylist = (baselineevents1) # controlevents1, ASMRevents1)
+#events into one dictionary
+events = {}
+EventsArrayList = [BaseLineEvents1,ControlEvents1, ASMRevents1]
 for i in eventsarraylist:
-    x = "onset"
-    name = "name"
-    events[name] = x
+     eventonset = i["onset"]
+     name = i["name"]
+     events[name] = eventonset
+
+'''
+
+to  be readable by events_plot needs to be a dictionary like this: 
+{'onset': array([ 1024,  4957,  9224, 12984]),
+ 'duration': array([300, 300, 300, 300]),
+ 'label': array(['1', '2', '3', '4'], dtype='<U11'),
+ 'condition': ['Negative', 'Neutral', 'Neutral', 'Negative']}
+ 
+ probably make lists and get it to update 'condition' with  'name'
+'''
 
 
-data1["Control"]
-
-
-
-
-#UNFINISHED - create a dictionary of events and pass events into the events parameter
-#or pass all of them in events.find
-#epochs = nk.epochs_create(ecg_signals, events=[0, 15000], sampling_rate=100, epochs_start=0, epochs_end=150)
 
 '''
 EPOCHS - split into 3 second chunks 
@@ -99,13 +103,15 @@ filelength =
 epochevents = [a = [i for i in range (filelength) if i%3 == 0]]
 epochs = nk.epochs_create(allsignals, events = epochevents, sampling_rate=2000, epochs_start=0, epochs_end=150)
 
-
 '''
 RATING - assign epochs a rating and a stimuli type (control, baseline, asmr)   
 '''
 
 '''
-MATCH epoch of same time value from start of the control period for participant2 (NOT same rating) 
+MATCH
+1. epoch of same time value from start of the control period for participant2 (NOT same rating) 
+2. 
+
 iteration of the analysis will input data from experimental participant and
 just baseline / control data from the yoked participant 
 
