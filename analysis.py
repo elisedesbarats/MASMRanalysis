@@ -58,7 +58,7 @@ PROCESS SLIDER
 '''
 
 '''
-FIND START AND EVENTS 
+FIND START AND EVENTS - events are how we make epochs, epochs are what we analyse 
 check change in channels - on is 5v, off is 0v, channels are 5,6,7
 first channel to change within the first 30 seconds indicates start of epochs 
 
@@ -83,6 +83,8 @@ for i in eventsarraylist:
      name = i["name"]
      events[name] = eventonset
 
+#order list by onset to get order of conditions and rename ASMRcondition, BaselineCondition etc.
+
 '''
 
 to  be readable by events_plot needs to be a dictionary like this: 
@@ -97,7 +99,7 @@ to  be readable by events_plot needs to be a dictionary like this:
 
 
 '''
-EPOCHS - split into 3 second chunks 
+EPOCHS - split into 3 second chunks - epochs is a dictionary of df's 
 '''
 filelength =
 epochevents = [a = [i for i in range (filelength) if i%3 == 0]]
@@ -106,7 +108,12 @@ epochs = nk.epochs_create(allsignals, events = epochevents, sampling_rate=2000, 
 '''
 RATING - assign epochs a rating and a stimuli type (control, baseline, asmr)   
 '''
+#we have a df for every 3 second epoch - need to organise these into 3 groups
+#update df with a rating column and stimuli type column
+#epochs with times - do if statements for before conditions [1], conditions [2], assign with label for that condition
+#label based on those
 
+#Rating - epoch will have TSA slider info - update df with an if statement
 '''
 MATCH
 1. epoch of same time value from start of the control period for participant2 (NOT same rating) 
@@ -116,5 +123,7 @@ iteration of the analysis will input data from experimental participant and
 just baseline / control data from the yoked participant 
 
 start time of experimental epoch 
+in each epoch:
+( epoch(value) - baseline(value) ) - 
 
 '''
